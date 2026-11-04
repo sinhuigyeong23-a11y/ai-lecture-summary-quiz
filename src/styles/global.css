@@ -1,0 +1,79 @@
+/* 공통 토큰 · 리셋 · 공통 컴포넌트 스타일 */
+:root {
+  --color-bg: #0c0b0b;
+  --color-text: #f8f8f8;
+  --color-text-soft: rgba(251, 244, 244, 0.8);
+  --color-primary: rgba(63, 79, 229, 0.78);
+  --color-primary-hover: rgba(80, 96, 240, 0.9);
+  --color-surface: rgba(29, 27, 27, 0.4);
+  --color-line: rgba(253, 249, 249, 0.23);
+
+  --font-base: 'IM Fell Double Pica', 'Noto Sans KR', sans-serif;
+
+  --gutter: clamp(16px, 4vw, 51px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* StarBackground */
+.star-bg {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  background-color: var(--color-bg);
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.btn--primary {
+  width: min(100%, clamp(220px, 24vw, 336px));
+  padding-block: clamp(12px, 1.28vw, 18px);
+  border-radius: 999px;
+  background: var(--color-primary);
+  font-size: clamp(16px, 1.52vw, 21px);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn--text {
+  font-weight: 700;
+}
+
+.btn--text:hover {
+  opacity: 0.7;
+}
