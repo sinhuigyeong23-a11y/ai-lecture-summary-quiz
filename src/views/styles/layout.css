@@ -1,0 +1,152 @@
+/* 모든 페이지 공통 레이아웃(Layout 컴포넌트): 절대좌표 없이 flex만 사용 */
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(20px, 4vw, 51px) var(--gutter) 0;
+}
+
+.page__brand {
+  font-size: clamp(16px, 1.44vw, 21px);
+}
+
+.page__logout {
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: 400;
+  color: var(--color-text-soft);
+}
+
+.page__hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.6vw, 22px);
+  padding: clamp(40px, 4.8vw, 77px) var(--gutter);
+  text-align: center;
+}
+
+.page__title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(28px, 2.88vw, 45px);
+  font-weight: 400;
+  line-height: 1.25;
+  word-break: keep-all;
+}
+
+.page__subtitle {
+  font-size: clamp(14px, 1.44vw, 19px);
+  color: var(--color-text-soft);
+  word-break: keep-all;
+}
+
+/* 하단 곡선 영역: 화면보다 넓은 타원 윗부분이 보이게 */
+.page__surface {
+  width: 140%;
+  margin-inline: -20%;
+  min-height: max(46svh, 300px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(16px, 1.92vw, 26px);
+  padding: clamp(56px, 9.6vw, 128px) calc(20% + var(--gutter)) clamp(40px, 4.8vw, 64px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / 28vw 28vw 0 0;
+  text-align: center;
+}
+
+.page__text {
+  max-width: 40em;
+  font-size: clamp(13px, 1.16vw, 16px);
+  line-height: 1.6;
+  opacity: 0.85;
+  word-break: keep-all;
+}
+
+.page__note {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4em;
+  font-size: clamp(12px, 0.9vw, 13px);
+  color: var(--color-text-soft);
+}
+
+/* 로그인 · 회원가입 · 학습 시작 폼 */
+.page__form {
+  width: min(100%, 400px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.4vw, 18px);
+}
+
+.page__form--wide {
+  width: min(100%, 640px);
+}
+
+/* 오른쪽 아래에 떠 있는 요소(챗봇)가 있는 페이지: 페이지와 overlay를 같은 grid 칸에 겹침 (position 없이) */
+.shell {
+  flex: 1;
+  display: grid;
+  height: 100svh;
+}
+
+.shell > * {
+  grid-area: 1 / 1;
+  min-height: 0;
+}
+
+.shell__scroll {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* 겹친 칸은 클릭을 통과시키고, 안의 요소만 클릭되게 */
+.shell__overlay {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: clamp(14px, 2vw, 28px);
+  pointer-events: none;
+}
+
+.shell__overlay > * {
+  pointer-events: auto;
+}
+
+/* 넓은 화면 (학습 공간 · 마이페이지) */
+.page__form--full {
+  width: min(100%, 1040px);
+}
+
+.page__nav {
+  display: flex;
+  gap: clamp(12px, 1.6vw, 20px);
+}
+
+.page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.page__message {
+  font-size: clamp(12px, 1vw, 14px);
+  color: var(--color-error);
+}

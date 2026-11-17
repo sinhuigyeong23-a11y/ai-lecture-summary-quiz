@@ -1,0 +1,1108 @@
+/* 학습 시작 페이지 전용: 파일 올리기 영역 · 학습 방식 선택 */
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: clamp(24px, 2.6vw, 36px) 16px;
+  border: 1px dashed var(--color-line-strong);
+  border-radius: 16px;
+  background: var(--color-field);
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.dropzone:hover,
+.dropzone.is-dragging {
+  border-color: var(--color-focus);
+  background: rgba(63, 79, 229, 0.12);
+}
+
+.dropzone__title {
+  font-size: clamp(15px, 1.2vw, 17px);
+  word-break: break-all;
+}
+
+.dropzone__hint {
+  font-size: clamp(11px, 0.9vw, 13px);
+  color: var(--color-text-soft);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* 최근 학습 기록 */
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.history__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: var(--color-field);
+  font-size: clamp(13px, 1.05vw, 15px);
+  transition: border-color 0.2s;
+}
+
+.history__item:hover {
+  border-color: var(--color-focus);
+}
+
+.history__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history__date {
+  flex-shrink: 0;
+  color: var(--color-text-soft);
+}
+
+/* 학습 결과 카드 */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(18px, 2vw, 28px);
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  background: var(--color-field);
+  text-align: left;
+}
+
+.card__title {
+  font-size: clamp(17px, 1.4vw, 20px);
+  font-weight: 400;
+}
+
+.card__body {
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.75;
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.quiz__question {
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.6;
+}
+
+.quiz__feedback {
+  font-size: clamp(13px, 1vw, 14px);
+  line-height: 1.6;
+  color: var(--color-text-soft);
+}
+
+/* AI 튜터 챗봇: 대화창 안에서만 스크롤, 내 말은 오른쪽 · AI 말은 왼쪽 (flex 정렬) */
+.chat__log {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: min(60svh, 480px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.chat__bubble {
+  align-self: flex-start;
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px 14px 14px 4px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.chat__bubble--user {
+  align-self: flex-end;
+  border-radius: 14px 14px 4px 14px;
+  background: var(--color-primary);
+}
+
+.chat__bubble--thinking {
+  color: var(--color-text-soft);
+  animation: chat-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes chat-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.chat__form {
+  display: flex;
+  gap: 8px;
+}
+
+.chat__form .field__input {
+  flex: 1;
+  min-width: 0;
+}
+
+.chat__form .btn {
+  flex-shrink: 0;
+}
+
+.page__back {
+  display: flex;
+}
+
+/* AI 정리 내용 */
+.note {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.75;
+  word-break: keep-all;
+}
+
+.note__heading {
+  margin-top: 10px;
+  font-size: 1.05em;
+  font-weight: 700;
+  color: #b9c0ff;
+}
+
+.note__item {
+  display: flex;
+  gap: 8px;
+}
+
+.note__item::before {
+  content: '•';
+  color: var(--color-focus);
+}
+
+.card__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0;
+  color: var(--color-text-soft);
+  text-align: center;
+}
+
+/* 마이페이지 */
+.stats {
+  display: flex;
+  gap: clamp(8px, 1.4vw, 16px);
+}
+
+.stats__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: clamp(14px, 1.8vw, 22px) 8px;
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  background: var(--color-field);
+}
+
+.stats__value {
+  font-size: clamp(20px, 2vw, 28px);
+}
+
+.stats__label {
+  font-size: clamp(12px, 0.95vw, 14px);
+  color: var(--color-text-soft);
+}
+
+.records {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.record {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+}
+
+.record__info {
+  flex: 1 1 260px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.record__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(14px, 1.15vw, 16px);
+}
+
+.record__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(12px, 0.95vw, 13px);
+  color: var(--color-text-soft);
+}
+
+.tag {
+  padding: 1px 8px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+}
+
+.record__state {
+  font-size: clamp(12px, 0.95vw, 13px);
+  color: #b9c0ff;
+}
+
+.record__actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* 오답노트 꾸미기 패널 */
+.decorate {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.decorate__panel {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border: 1px dashed var(--color-line-strong);
+  border-radius: 12px;
+}
+
+.decorate__row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.decorate__label {
+  font-size: clamp(12px, 0.95vw, 13px);
+  color: var(--color-text-soft);
+}
+
+/* 오답노트: 종이 느낌 (줄노트 · 모눈 · 무지 · 다크), 펜 색은 --note-accent */
+.wrongnote {
+  --note-accent: #3f4fe5;
+  --note-line: 1.9em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--note-line);
+  padding: 0.6em 1.1em var(--note-line);
+  border-radius: 12px;
+  background-color: #fffdf6;
+  color: #222;
+  line-height: var(--note-line);
+  word-break: keep-all;
+}
+
+.wrongnote--lined {
+  background-image: repeating-linear-gradient(
+    transparent 0 calc(var(--note-line) - 1px),
+    #d6deee calc(var(--note-line) - 1px) var(--note-line)
+  );
+  background-position: 0 0.6em;
+}
+
+.wrongnote--grid {
+  background-image:
+    linear-gradient(#e3e8f3 1px, transparent 1px),
+    linear-gradient(90deg, #e3e8f3 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.wrongnote--dark {
+  background-color: #1d1d24;
+  color: #f2f2f2;
+}
+
+.decorate__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.save-state {
+  font-size: clamp(12px, 0.95vw, 13px);
+  color: var(--color-text-soft);
+}
+
+.save-state--failed {
+  color: var(--color-error);
+}
+
+/* 오답노트 편집 도구 모음 */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.toolbar__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbar__label {
+  font-size: 12px;
+  color: var(--color-text-soft);
+}
+
+.toolbar__select {
+  padding: 6px 10px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 8px;
+  background: #15151a;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 13px;
+}
+
+.btn--chip.tool {
+  padding: 0.35em 0.8em;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.swatch {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.swatch.is-active,
+.swatch:hover {
+  border-color: #fff;
+}
+
+/* 편집기 본문 (ProseMirror) */
+.wrongnote__editor .ProseMirror {
+  min-height: 320px;
+  outline: none;
+}
+
+.wrongnote__editor .ProseMirror > * + * {
+  margin-top: 0;
+}
+
+.wrongnote__editor h3 {
+  color: var(--note-accent);
+  font-size: 1.1em;
+}
+
+.wrongnote__editor ul {
+  padding-left: 1.4em;
+}
+
+.wrongnote__editor hr {
+  margin: calc(var(--note-line) / 2 - 1px) 0;
+  border: none;
+  border-top: 2px dashed var(--note-accent);
+  opacity: 0.5;
+}
+
+.wrongnote__editor mark {
+  padding: 0 2px;
+  border-radius: 3px;
+  color: inherit;
+}
+
+/* 요약 탭: 세부 요약 블록 */
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.summary__block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summary__block--exam {
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 200, 80, 0.45);
+  border-radius: 12px;
+  background: rgba(255, 200, 80, 0.08);
+}
+
+.summary__title {
+  font-size: clamp(15px, 1.2vw, 17px);
+  font-weight: 700;
+}
+
+.keyword {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(63, 79, 229, 0.3);
+  font-size: clamp(13px, 1vw, 14px);
+}
+
+.concepts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.concepts__item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  line-height: 1.6;
+}
+
+.concepts__item dt {
+  flex: 0 0 auto;
+  min-width: 7em;
+  font-weight: 700;
+  color: #b9c0ff;
+}
+
+.concepts__item dd {
+  flex: 1 1 260px;
+  margin: 0;
+}
+
+.easy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--color-focus);
+  border-radius: 0 10px 10px 0;
+  background: rgba(255, 255, 255, 0.04);
+  line-height: 1.6;
+}
+
+.easy span {
+  margin-right: 8px;
+  font-size: 0.8em;
+  color: var(--color-text-soft);
+}
+
+.easy__original {
+  color: var(--color-text-soft);
+}
+
+/* 오답노트: 틀린 문제 카드 + AI 분석 */
+.wrong-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+}
+
+.wrong-card__mine {
+  color: #ff8a8a;
+  text-decoration: line-through;
+}
+
+.wrong-card__answer {
+  color: #7ee2a8;
+  font-weight: 700;
+}
+
+.analysis {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(63, 79, 229, 0.12);
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.analysis strong {
+  color: #b9c0ff;
+}
+
+.view__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* 만들기 창 (<dialog>: 브라우저가 화면 가운데 띄워줌) */
+.dialog {
+  width: min(92vw, 520px);
+  padding: 0;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 18px;
+  background: #121216;
+  color: var(--color-text);
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.dialog__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(20px, 3vw, 28px);
+}
+
+.dialog__title {
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 400;
+}
+
+.dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding-top: 6px;
+}
+
+/* 단계 표시: 1 문제 유형 → 2 난이도 → 3 문제 개수 */
+.steps {
+  display: flex;
+  gap: 6px;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps li {
+  flex: 1;
+  padding: 8px 4px;
+  border-bottom: 2px solid var(--color-line);
+  color: var(--color-text-soft);
+  font-size: 13px;
+  text-align: center;
+  counter-increment: step;
+}
+
+.steps li::before {
+  content: counter(step) '. ';
+}
+
+.steps li.is-current {
+  border-color: var(--color-focus);
+  color: var(--color-text);
+}
+
+.steps li.is-done {
+  border-color: rgba(91, 106, 240, 0.5);
+}
+
+.options-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.options-grid--list {
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 세로 목록에서는 너비용 flex-basis가 높이로 늘어나지 않게 */
+.options-grid--list .btn--chip.option {
+  flex: none;
+  padding: 10px 14px;
+}
+
+.btn--chip.option {
+  flex: 1 1 140px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.option span {
+  font-size: 12px;
+  color: var(--color-text-soft);
+}
+
+/* 퀴즈 시험지: 흰 종이 + 채점하면 빨간 펜 */
+.paper {
+  --red: #e03131;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: clamp(18px, 2.4vw, 32px);
+  border-radius: 6px;
+  background: #fbfaf6;
+  color: #1f1f1f;
+}
+
+.paper__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #1f1f1f;
+}
+
+.paper__name {
+  font-weight: 700;
+}
+
+.paper__score {
+  padding: 2px 14px;
+  border: 3px solid var(--red);
+  border-radius: 50%;
+  color: var(--red);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 700;
+}
+
+.paper__q {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 0;
+  border-bottom: 1px dashed #c9c6bc;
+}
+
+.paper__question {
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.paper__question .tag {
+  margin-left: 8px;
+  border-color: #c9c6bc;
+  color: #777;
+  font-size: 0.75em;
+}
+
+.paper__no {
+  font-weight: 700;
+}
+
+.paper__mark {
+  margin-right: 6px;
+  color: var(--red);
+  font-size: 1.3em;
+}
+
+.paper__choices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.paper__choices--ox {
+  flex-direction: row;
+}
+
+.paper__choice {
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.paper__choices--ox .paper__choice {
+  flex: 1;
+  border-color: #d8d5cc;
+  font-size: 1.4em;
+  text-align: center;
+}
+
+.paper__choice:hover:not(:disabled) {
+  background: #efede6;
+}
+
+.paper__choice:disabled {
+  cursor: default;
+}
+
+/* 내가 고른 답: 연필 동그라미 */
+.paper__choice.is-picked {
+  border-color: #1f1f1f;
+}
+
+/* 채점: 정답은 빨간 동그라미, 틀린 내 답은 빨간 줄 */
+.paper__choice.is-answer {
+  border: 2px solid var(--red);
+  color: var(--red);
+  font-weight: 700;
+}
+
+.is-crossed {
+  color: #999;
+  text-decoration: line-through var(--red) 2px;
+}
+
+.paper__short {
+  padding: 8px 4px;
+  border: none;
+  border-bottom: 1px solid #1f1f1f;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+
+.paper__short:focus {
+  outline: none;
+  border-bottom-width: 2px;
+}
+
+.paper__red {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 10px;
+  border-left: 3px solid var(--red);
+  color: var(--red);
+  font-size: 0.92em;
+  line-height: 1.6;
+}
+
+.paper__foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-top: 20px;
+}
+
+.paper__foot .decorate__label {
+  color: #777;
+}
+
+.wrong-card.is-resolved {
+  opacity: 0.6;
+}
+
+.wrong-card__resolved {
+  color: #7ee2a8;
+}
+
+/* 만들기 창 가운데 정렬: 공통 리셋(margin: 0)이 브라우저 기본 가운데 정렬을 지워서 다시 auto로 */
+.dialog {
+  margin: auto;
+}
+
+/* 학습 공간 처음 화면 */
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.home__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.home__actions .option {
+  min-height: 84px;
+  justify-content: center;
+}
+
+.btn.home__upload {
+  font-weight: 300;
+  color: var(--color-text-soft);
+}
+
+.btn.home__upload:hover {
+  color: var(--color-text);
+}
+
+button.history__item {
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* 오른쪽 아래 AI 튜터: 캐릭터 버튼 + 대화창 */
+.chatbot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  max-width: calc(100vw - 28px);
+}
+
+.chatbot__button {
+  width: 64px;
+  height: 64px;
+  padding: 4px;
+  border: none;
+  border-radius: 50%;
+  background: #1a1a2e;
+  box-shadow: 0 6px 20px rgba(63, 79, 229, 0.45);
+  cursor: pointer;
+  animation: mascot-float 3s ease-in-out infinite;
+}
+
+.chatbot__button:hover {
+  box-shadow: 0 6px 26px rgba(91, 106, 240, 0.8);
+}
+
+@keyframes mascot-float {
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+.mascot__eye {
+  animation: mascot-blink 4s infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@keyframes mascot-blink {
+  0%, 92%, 100% {
+    scale: 1 1;
+  }
+  95% {
+    scale: 1 0.1;
+  }
+}
+
+.chatbot__panel {
+  width: min(380px, calc(100vw - 28px));
+  max-height: min(600px, calc(100svh - 120px));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 18px;
+  background: #121216;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.chatbot__panel .chat__log {
+  flex: 1;
+  min-height: 160px;
+}
+
+.chatbot__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chatbot__head strong {
+  flex: 1;
+}
+
+.chatbot__avatar {
+  width: 32px;
+  height: 32px;
+}
+
+.chatbot__focus {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chatbot__focus select {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatbot__button,
+  .mascot__eye {
+    animation: none;
+  }
+}
+
+/* 마이페이지: 내 학습 파일 목록 */
+.files {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.file {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: var(--color-field);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.file:hover {
+  border-color: var(--color-focus);
+}
+
+.file__icon {
+  font-size: 1.4em;
+}
+
+.file__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.file__name {
+  font-size: clamp(14px, 1.1vw, 16px);
+}
+
+.file__lecture {
+  overflow: hidden;
+  color: var(--color-text-soft);
+  font-size: clamp(12px, 0.95vw, 13px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file__info {
+  flex-shrink: 0;
+  color: #b9c0ff;
+  font-size: clamp(12px, 0.95vw, 13px);
+}
+
+/* 파일 미리보기 창: PDF와 같은 흰 종이 문서 */
+.dialog--wide {
+  width: min(94vw, 820px);
+}
+
+.preview {
+  max-height: min(65svh, 720px);
+  overflow: auto;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.dialog__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 채점 후: 오답노트에 담기 체크 */
+.paper__pick {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px dashed #c9c6bc;
+  border-radius: 8px;
+  color: #555;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+.paper__pick input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--red);
+}
+
+.paper__note {
+  align-self: flex-start;
+  color: #777;
+  font-size: 0.9em;
+}
+
+.paper__done {
+  color: var(--red);
+  font-weight: 700;
+}
+
+.paper__foot .chips {
+  justify-content: center;
+}
+
+/* 오답노트 파일함: 파일 + 이름 바꾸기 · 삭제 */
+.file-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.file-row .file,
+.file-row__edit {
+  flex: 1 1 300px;
+}
+
+.file-row__actions {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.btn.home__upload.is-danger {
+  color: var(--color-error);
+}
