@@ -6,6 +6,7 @@ import {
   deleteWrongNote,
   formatDate,
   quizSetLabel,
+  quizWizard,
   type Lecture,
   type LectureListItem,
 } from './study'
@@ -27,6 +28,14 @@ export const myPageContent = {
   remove: '삭제',
   removeConfirm: '한 번 더 누르면 삭제',
   removeHint: '시험지를 지워도 오답노트에 담은 문제는 남아요.',
+  chart: {
+    title: '학습 통계',
+    trend: '시험지 점수 변화',
+    byType: '문제 유형별 정답률',
+    weak: '자주 틀리는 개념',
+    weakEmpty: '오답노트에서 "AI 오답 분석"을 하면 여기에 모여요.',
+    empty: '채점한 시험지가 생기면 통계가 보여요.',
+  },
 }
 
 export type FileKind = StudyFileTarget['kind']
@@ -110,4 +119,48 @@ export function myPageStats(lectures: LectureListItem[]): StatItem[] {
     { label: '푼 문제', value: `${answered}개` },
     { label: '정답률', value: answered ? `${Math.round((correct / answered) * 100)}%` : '-' },
   ]
+}
+
+export interface Bar {
+  label: string
+  /** 0 ~ 100 */
+  percent: number
+  /** 막대 옆에 보여줄 값 */
+  value: string
+}
+
+/** 학습 통계: 채점한 시험지 점수 변화 · 유형별 정답률 · 자주 틀리는 개념 (오답 분석 결과 기준) */
+export function learningStats(lectures: Lecture[]) {
+  const sets = lectures
+    .flatMap((l) => l.quizSets.map((s) => ({ ...s, lectureTitle: l.title })))
+    .filter((s) => s.revealed && s.questions.length > 0)
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+    .slice(-10) // 최근 10개
+  const trend: Bar[] = sets.map((s, i) => {
+    const percent = Math.round((s.correctCount / s.questions.length) * 100)
+    return { label: `${i + 1}`, percent, value: `${percent}점 · ${s.lectureTitle}` }
+  })
+
+  const graded = lectures.flatMap((l) => l.quizSets.filter((s) => s.revealed).flatMap((s) => s.questions))
+  const byType: Bar[] = quizWizard.types
+    .map((t) => {
+      const qs = graded.filter((q) => q.type === t.id)
+      const correct = qs.filter((q) => q.correct).length
+      return { label: t.label, percent: qs.length ? Math.round((correct / qs.length) * 100) : 0, value: `${correct} / ${qs.length}`, n: qs.length }
+    })
+    .filter((b) => b.n > 0)
+    .map(({ n: _n, ...b }) => b)
+
+  const counts = new Map<string, number>()
+  lectures
+    .flatMap((l) => l.wrongNotes.flatMap((n) => n.questions))
+    .forEach((q) => {
+      const concept = q.analysis?.concept?.trim()
+      if (concept) counts.set(concept, (counts.get(concept) ?? 0) + 1)
+    })
+  const top = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5)
+  const max = top[0]?.[1] ?? 1
+  const weak: Bar[] = top.map(([label, n]) => ({ label, percent: Math.round((n / max) * 100), value: `${n}번` }))
+
+  return { trend, byType, weak }
 }

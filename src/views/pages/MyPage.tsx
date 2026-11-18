@@ -27,6 +27,50 @@ export default function MyPage() {
           ))}
         </div>
 
+        {page.loaded && !page.isEmpty && (
+          <section className="card">
+            <h2 className="card__title">{content.chart.title}</h2>
+            {page.charts.trend.length === 0 ? (
+              <p className="decorate__label">{content.chart.empty}</p>
+            ) : (
+              <div className="charts">
+                <div className="chart">
+                  <h3 className="chart__title">{content.chart.trend}</h3>
+                  <div className="chart__columns">
+                    {page.charts.trend.map((b, i) => (
+                      <div key={i} className="chart__column" title={b.value}>
+                        <span className="chart__num">{b.percent}</span>
+                        <span className="chart__track chart__track--v">
+                          <span className="chart__fill" style={{ height: `${Math.max(b.percent, 2)}%` }} />
+                        </span>
+                        <span className="chart__label">{b.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {[
+                  { title: content.chart.byType, bars: page.charts.byType, empty: '' },
+                  { title: content.chart.weak, bars: page.charts.weak, empty: content.chart.weakEmpty },
+                ].map((c) => (
+                  <div key={c.title} className="chart">
+                    <h3 className="chart__title">{c.title}</h3>
+                    {c.bars.length === 0 && <p className="decorate__label">{c.empty}</p>}
+                    {c.bars.map((b) => (
+                      <div key={b.label} className="chart__row">
+                        <span className="chart__label">{b.label}</span>
+                        <span className="chart__track">
+                          <span className="chart__fill" style={{ width: `${Math.max(b.percent, 2)}%` }} />
+                        </span>
+                        <span className="chart__num">{b.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
         <section className="card">
           <div className="view__head">
             <h2 className="card__title">{content.filesTitle}</h2>

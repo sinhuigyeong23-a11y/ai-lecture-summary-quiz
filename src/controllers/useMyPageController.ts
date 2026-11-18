@@ -4,7 +4,7 @@ import { ApiError, errorMessage } from '../models/api'
 import { fetchMe, type User } from '../models/auth'
 import { exportStudyFile, renderStudyFile } from '../models/pdf'
 import { fetchLecture, fetchLectures, type Lecture, type LectureListItem } from '../models/study'
-import { deleteStudyFile, myPageStats, studyFiles, type FileKind, type StudyFile } from '../models/myPage'
+import { deleteStudyFile, learningStats, myPageStats, studyFiles, type FileKind, type StudyFile } from '../models/myPage'
 import { loadNoteFonts, normalizeNoteStyle } from '../models/noteStyle'
 
 // 마이페이지: 통계 · 내 학습 파일 목록(종류별) · 파일 내용 보기 · PDF로 내보내기 (로그인 필요)
@@ -103,6 +103,7 @@ export function useMyPageController() {
     loaded: list !== null,
     isEmpty: list?.length === 0,
     stats: myPageStats(list ?? []),
+    charts: learningStats(lectures),
     filter,
     setFilter,
     files: files.filter((f) => filter === 'all' || f.target.kind === filter),
