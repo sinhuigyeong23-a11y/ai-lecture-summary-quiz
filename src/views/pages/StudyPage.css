@@ -965,6 +965,27 @@ button.history__item {
   width: 100%;
 }
 
+/* 챗봇 입력줄: 입력칸은 넓게, 보내기 버튼은 작게 */
+.chatbot__panel .chat__form {
+  align-items: stretch;
+}
+
+.chatbot__panel .chat__form .field__input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  font-size: 14px;
+}
+
+.chatbot__panel .chat__form .btn--primary {
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: auto;
+  padding: 0 16px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .chatbot__button,
   .mascot__eye {
