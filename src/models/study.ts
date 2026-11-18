@@ -9,7 +9,7 @@ export type SummarySection = 'overview' | 'keywords' | 'concepts' | 'easy' | 'ex
 /** 자료 올리기 화면 */
 export const studyPageContent = {
   titleLines: ['어떤 강의를', '공부해볼까요?'],
-  subtitle: '자료를 올리면 왼쪽 메뉴에서 요약 · 퀴즈를 만들 수 있어요',
+  subtitle: '자료를 올리면 AI가 요약 · 퀴즈 · 오답노트를 만들어드려요',
   upload: {
     label: '강의 자료 올리기',
     hint: '클릭하거나 파일을 끌어다 놓으세요 · PDF, TXT (15MB 이하)',
