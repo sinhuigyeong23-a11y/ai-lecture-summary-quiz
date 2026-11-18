@@ -63,6 +63,7 @@ export const authMessages = {
   empty: '모든 항목을 입력해주세요.',
   shortPassword: '비밀번호는 8자 이상이어야 해요.',
   mismatch: '비밀번호가 서로 달라요.',
+  expired: '로그인 시간이 만료됐어요. 다시 로그인해주세요.',
 }
 
 export const authLoadingLabel = '잠시만요…'

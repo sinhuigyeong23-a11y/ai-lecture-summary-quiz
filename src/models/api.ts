@@ -48,7 +48,12 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
     throw new ApiError(0, '서버에 연결할 수 없어요. 백엔드가 켜져 있는지 확인해주세요.')
   }
 
-  if (res.status === 401) tokenStore.clear()
+  // 로그인 만료(토큰 24시간): 토큰을 지우고 로그인 화면으로 보냄. 로그인 후 보던 페이지로 돌아옴
+  if (res.status === 401 && token && !path.startsWith('/auth/')) {
+    tokenStore.clear()
+    const from = window.location.pathname + window.location.search
+    window.location.assign(`/login?expired=1&from=${encodeURIComponent(from)}`)
+  }
   if (!res.ok) {
     const data = (await res.json().catch(() => null)) as { message?: string } | null
     const fallback = res.status === 401 ? '다시 로그인해주세요.' : '요청에 실패했어요. 잠시 후 다시 시도해주세요.'
