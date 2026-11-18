@@ -1227,3 +1227,9 @@ button.history__item {
 .chart__track--v .chart__fill {
   width: 100%;
 }
+
+/* 복습 알림 줄은 링크라서 밑줄 · 파란 글씨 없애기 */
+a.file {
+  color: inherit;
+  text-decoration: none;
+}

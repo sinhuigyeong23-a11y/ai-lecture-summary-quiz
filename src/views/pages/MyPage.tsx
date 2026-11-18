@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import Button from '../components/Button'
 import Dialog from '../components/Dialog'
 import Field from '../components/Field'
@@ -27,6 +28,29 @@ export default function MyPage() {
             </div>
           ))}
         </div>
+
+        {page.reviews.length > 0 && (
+          <section className="card">
+            <h2 className="card__title">{content.review.title}</h2>
+            <p className="decorate__label">{content.review.hint}</p>
+            <ul className="files">
+              {page.reviews.map((r) => (
+                <li key={r.file.key} className="file-row">
+                  <Link className="file" to={openInWorkspace(r.file)}>
+                    <span className="file__icon" aria-hidden="true">⏰</span>
+                    <span className="file__text">
+                      <span className="file__name">{r.file.name}</span>
+                      <span className="file__lecture">
+                        {r.file.lecture.title} · {content.review.item(r.days, r.left)}
+                      </span>
+                    </span>
+                    <span className="file__info">{r.stage}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {page.loaded && !page.isEmpty && (
           <section className="card">

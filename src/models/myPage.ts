@@ -31,6 +31,12 @@ export const myPageContent = {
   remove: '삭제',
   removeConfirm: '한 번 더 누르면 삭제',
   removeHint: '시험지를 지워도 오답노트에 담은 문제는 남아요.',
+  review: {
+    title: '🔔 복습할 때예요',
+    hint: '틀린 뒤 1 · 3 · 7 · 14일째에 다시 풀면 오래 기억에 남아요 (망각곡선).',
+    item: (days: number, left: number) => `${days}일 전 오답 · 아직 못 맞힌 문제 ${left}개`,
+    go: '다시 풀러 가기',
+  },
   chart: {
     title: '학습 통계',
     trend: '시험지 점수 변화',
@@ -166,4 +172,34 @@ export function learningStats(lectures: Lecture[]) {
   const weak: Bar[] = top.map(([label, n]) => ({ label, percent: Math.round((n / max) * 100), value: `${n}번` }))
 
   return { trend, byType, weak }
+}
+
+/** 망각곡선 복습 시점 (틀린 뒤 며칠째) */
+const REVIEW_DAYS = [1, 3, 7, 14]
+const DAY = 24 * 60 * 60 * 1000
+
+export interface ReviewItem {
+  file: StudyFile
+  days: number
+  left: number
+  /** 지금 해당하는 복습 단계 (예: 3일 복습) */
+  stage: string
+}
+
+/** 복습 알림: 아직 못 맞힌 문제가 있는 오답노트 중 하루 이상 지난 것 (오래된 순) */
+export function reviewReminders(lectures: Lecture[], now = Date.now()): ReviewItem[] {
+  const files = studyFiles(lectures).filter((f) => f.target.kind === 'wrong')
+  return files
+    .flatMap((file) => {
+      const t = file.target
+      const note = t.kind === 'wrong' ? file.lecture.wrongNotes.find((n) => n.id === t.noteId) : undefined
+      if (!note) return []
+      const left = note.questions.filter((q) => !q.resolved).length
+      const days = Math.floor((now - new Date(note.createdAt).getTime()) / DAY)
+      if (left === 0 || days < REVIEW_DAYS[0]) return []
+      const reached = REVIEW_DAYS.filter((d) => d <= days).at(-1) ?? REVIEW_DAYS[0]
+      return [{ file, days, left, stage: `${reached}일 복습` }]
+    })
+    .sort((a, b) => b.days - a.days)
+    .slice(0, 5)
 }
