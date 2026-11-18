@@ -1127,3 +1127,18 @@ button.history__item {
 .btn.home__upload.is-danger {
   color: var(--color-error);
 }
+
+/* 만들기 창 안의 체크 옵션 (예: 이미 만든 요약도 새로 만들기) */
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.check input {
+  width: 16px;
+  height: 16px;
+}

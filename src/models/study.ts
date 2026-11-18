@@ -72,6 +72,9 @@ export const workspaceContent = {
     summaryTitle: '요약 만들기',
     summaryHint: '만들 항목을 골라주세요 (여러 개 선택 가능)',
     summarySubmit: '요약 만들기',
+    summaryShow: '만든 요약 보기',
+    madeBadge: '이미 있음 · AI 안 씀',
+    refreshLabel: '이미 만든 항목도 새로 만들기',
     quizTitle: '퀴즈 만들기',
     quizHints: ['문제 유형을 골라주세요 (여러 개 선택 가능)', '난이도를 골라주세요', '몇 문제를 만들까요?'],
     quizSubmit: '퀴즈 만들기',
@@ -284,7 +287,22 @@ export const fetchLecture = (id: string | number) => api<Lecture>(`/lectures/${i
 const post = <T>(path: string, body?: unknown) =>
   api<T>(path, { method: 'POST', body: body === undefined ? undefined : JSON.stringify(body) })
 
-export const makeSummary = (id: string, sections: SummarySection[]) => post<Lecture>(`/lectures/${id}/summary`, { sections })
+/** refresh=false면 이미 만든 항목은 AI를 다시 부르지 않음 */
+export const makeSummary = (id: string, sections: SummarySection[], refresh = false) =>
+  post<Lecture>(`/lectures/${id}/summary`, { sections, refresh })
+
+/** 이미 만들어 둔 요약 항목들 */
+export function madeSections(lecture: Lecture): SummarySection[] {
+  const d = summaryDetail(lecture)
+  const has: Record<SummarySection, boolean> = {
+    overview: Boolean(d.overview || lecture.summary),
+    keywords: Boolean(d.keywords?.length),
+    concepts: Boolean(d.concepts?.length),
+    easy: Boolean(d.easySentences?.length),
+    exam: Boolean(d.examPoints?.length),
+  }
+  return summarySections.map((s) => s.id).filter((id) => has[id])
+}
 
 export const makeQuizSet = (id: string, options: { types: QuizType[]; difficulty: Difficulty; count: number }) =>
   post<Lecture>(`/lectures/${id}/quiz-sets`, options)

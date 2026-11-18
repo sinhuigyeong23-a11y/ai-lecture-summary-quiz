@@ -46,7 +46,7 @@ export function SummaryView({ lecture, ctrl }: { lecture: Lecture; ctrl: Ctrl })
   return (
     <div className="summary">
       <div className="view__head">
-        <Button variant="chip" onClick={() => ctrl.openDialog('summary')}>
+        <Button variant="chip" onClick={() => { ctrl.openDialog('summary'); ctrl.setRefresh(true) }}>
           {content.summary.remake}
         </Button>
       </div>

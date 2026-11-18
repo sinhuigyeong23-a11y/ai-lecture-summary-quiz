@@ -57,6 +57,7 @@ export function useLectureController(id: string) {
   // 만들기 창 상태
   const [dialog, setDialog] = useState<DialogKind>(null)
   const [step, setStep] = useState(0)
+  const [refresh, setRefresh] = useState(false)
   const [sections, setSections] = useState<SummarySection[]>(['overview', 'keywords', 'concepts', 'easy', 'exam'])
   const [types, setTypes] = useState<QuizType[]>(['multiple'])
   const [difficulty, setDifficulty] = useState<Difficulty>('normal')
@@ -112,13 +113,14 @@ export function useLectureController(id: string) {
   const openDialog = (kind: Exclude<DialogKind, null>) => {
     setError('')
     setStep(0)
+    setRefresh(false)
     setDialog(kind)
   }
   const closeDialog = () => busy !== 'make' && busy !== 'export' && setDialog(null)
   const toggle = <T,>(list: T[], value: T) => (list.includes(value) ? list.filter((v) => v !== value) : [...list, value])
 
   const submitSummary = () =>
-    run('make', () => makeSummary(id, sections), () => {
+    run('make', () => makeSummary(id, sections, refresh), () => {
       setDialog(null)
       setView({ kind: 'summary' })
     })
@@ -214,6 +216,8 @@ export function useLectureController(id: string) {
     step,
     setStep,
     sections,
+    refresh,
+    setRefresh,
     toggleSection: (s: SummarySection) => setSections((prev) => toggle(prev, s)),
     types,
     toggleType: (t: QuizType) => setTypes((prev) => toggle(prev, t)),

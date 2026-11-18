@@ -4,7 +4,7 @@ import Dialog from '../components/Dialog'
 import Layout from '../components/Layout'
 import ChatWidget from './ChatWidget'
 import { QuizPaper, SummaryView, WrongList, WrongView } from './StudyViews'
-import { hasSummary, quizWizard, summarySections, workspaceContent as content } from '../../models/study'
+import { hasSummary, madeSections, quizWizard, summarySections, workspaceContent as content } from '../../models/study'
 import { useLectureController } from '../../controllers/useLectureController'
 import { useChatController } from '../../controllers/useChatController'
 import { useNoteStyleController } from '../../controllers/useNoteStyleController'
@@ -125,6 +125,7 @@ export default function ResultPage() {
     </Dialog>
   )
 
+  const made = madeSections(lecture)
   const summaryDialog = (
     <Dialog
       open={ctrl.dialog === 'summary'}
@@ -136,7 +137,11 @@ export default function ResultPage() {
             {d.cancel}
           </Button>
           <Button onClick={ctrl.submitSummary} disabled={ctrl.busy === 'make' || ctrl.sections.length === 0}>
-            {ctrl.busy === 'make' ? d.making(ctrl.elapsed) : d.summarySubmit}
+            {ctrl.busy === 'make'
+              ? d.making(ctrl.elapsed)
+              : !ctrl.refresh && ctrl.sections.every((s) => made.includes(s))
+                ? d.summaryShow
+                : d.summarySubmit}
           </Button>
         </>
       }
@@ -146,9 +151,16 @@ export default function ResultPage() {
         {summarySections.map((s) => (
           <Button key={s.id} variant="chip" className="option" active={ctrl.sections.includes(s.id)} onClick={() => ctrl.toggleSection(s.id)}>
             <strong>{ctrl.sections.includes(s.id) ? `✓ ${s.label}` : s.label}</strong>
+            {made.includes(s.id) && !ctrl.refresh && <span>{d.madeBadge}</span>}
           </Button>
         ))}
       </div>
+      {made.length > 0 && (
+        <label className="check">
+          <input type="checkbox" checked={ctrl.refresh} onChange={(e) => ctrl.setRefresh(e.target.checked)} />
+          {d.refreshLabel}
+        </label>
+      )}
       {ctrl.dialog === 'summary' && ctrl.error && <p className="page__message">{ctrl.error}</p>}
     </Dialog>
   )
