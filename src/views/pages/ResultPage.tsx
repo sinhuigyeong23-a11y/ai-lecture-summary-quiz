@@ -98,6 +98,7 @@ export default function ResultPage() {
         ))}
       </ol>
       <p className="decorate__label">{d.quizHints[ctrl.step]}</p>
+      {ctrl.concepts.length > 0 && <p className="decorate__label">{content.conceptQuiz.inDialog(ctrl.concepts)}</p>}
 
       <div className="options-grid">
         {ctrl.step === 0 &&

@@ -80,6 +80,12 @@ export const workspaceContent = {
     quizSubmit: '퀴즈 만들기',
     making: (sec: number) => `AI가 만드는 중이에요… ${sec}초`,
   },
+  conceptQuiz: {
+    hint: '키워드나 개념을 눌러 고르면, 그 개념만 골라 퀴즈를 만들 수 있어요.',
+    make: (n: number) => `고른 개념 ${n}개로 퀴즈 만들기`,
+    clear: '선택 해제',
+    inDialog: (list: string[]) => `고른 개념만 출제: ${list.join(', ')}`,
+  },
   summary: { remake: '다시 만들기', easyOriginal: '원문', easyPlain: '쉽게', empty: '아직 요약이 없어요.' },
   paper: {
     typeLabel: { multiple: '객관식', short: '주관식', ox: 'OX' } as Record<QuizType, string>,
@@ -304,7 +310,8 @@ export function madeSections(lecture: Lecture): SummarySection[] {
   return summarySections.map((s) => s.id).filter((id) => has[id])
 }
 
-export const makeQuizSet = (id: string, options: { types: QuizType[]; difficulty: Difficulty; count: number }) =>
+/** concepts: 요약에서 고른 개념만 다루는 퀴즈 (비우면 자료 전체) */
+export const makeQuizSet = (id: string, options: { types: QuizType[]; difficulty: Difficulty; count: number; concepts?: string[] }) =>
   post<Lecture>(`/lectures/${id}/quiz-sets`, options)
 
 /** 답 저장 (정답 보기 전까지 바꿀 수 있음) */

@@ -58,6 +58,8 @@ export function useLectureController(id: string) {
   const [dialog, setDialog] = useState<DialogKind>(null)
   const [step, setStep] = useState(0)
   const [refresh, setRefresh] = useState(false)
+  /** 요약에서 고른 개념 (이것만으로 퀴즈 만들기) */
+  const [concepts, setConcepts] = useState<string[]>([])
   const [sections, setSections] = useState<SummarySection[]>(['overview', 'keywords', 'concepts', 'easy', 'exam'])
   const [types, setTypes] = useState<QuizType[]>(['multiple'])
   const [difficulty, setDifficulty] = useState<Difficulty>('normal')
@@ -114,7 +116,14 @@ export function useLectureController(id: string) {
     setError('')
     setStep(0)
     setRefresh(false)
+    setConcepts([])
     setDialog(kind)
+  }
+  /** 고른 개념은 유지한 채 퀴즈 만들기 창 열기 */
+  const quizFromConcepts = () => {
+    setError('')
+    setStep(0)
+    setDialog('quiz')
   }
   const closeDialog = () => busy !== 'make' && busy !== 'export' && setDialog(null)
   const toggle = <T,>(list: T[], value: T) => (list.includes(value) ? list.filter((v) => v !== value) : [...list, value])
@@ -126,8 +135,9 @@ export function useLectureController(id: string) {
     })
 
   const submitQuiz = () =>
-    run('make', () => makeQuizSet(id, { types, difficulty, count }), (data) => {
+    run('make', () => makeQuizSet(id, { types, difficulty, count, concepts }), (data) => {
       setDialog(null)
+      setConcepts([])
       openLatestSet(data)
     })
 
@@ -218,6 +228,10 @@ export function useLectureController(id: string) {
     sections,
     refresh,
     setRefresh,
+    concepts,
+    toggleConcept: (c: string) => setConcepts((prev) => toggle(prev, c)),
+    clearConcepts: () => setConcepts([]),
+    quizFromConcepts,
     toggleSection: (s: SummarySection) => setSections((prev) => toggle(prev, s)),
     types,
     toggleType: (t: QuizType) => setTypes((prev) => toggle(prev, t)),

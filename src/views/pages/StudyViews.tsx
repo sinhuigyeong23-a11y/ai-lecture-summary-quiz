@@ -42,14 +42,24 @@ export function SummaryView({ lecture, ctrl }: { lecture: Lecture; ctrl: Ctrl })
   const d = summaryDetail(lecture)
   const title = (id: string) => summarySections.find((s) => s.id === id)?.title
   const overview = d.overview ?? lecture.summary
+  const cq = content.conceptQuiz
 
   return (
     <div className="summary">
       <div className="view__head">
+        {ctrl.concepts.length > 0 && (
+          <>
+            <Button variant="text" className="home__upload" onClick={ctrl.clearConcepts}>
+              {cq.clear}
+            </Button>
+            <Button onClick={ctrl.quizFromConcepts}>{cq.make(ctrl.concepts.length)}</Button>
+          </>
+        )}
         <Button variant="chip" onClick={() => { ctrl.openDialog('summary'); ctrl.setRefresh(true) }}>
           {content.summary.remake}
         </Button>
       </div>
+      {(d.keywords?.length || d.concepts?.length) ? <p className="decorate__label">{cq.hint}</p> : null}
 
       {overview && (
         <section className="summary__block">
@@ -63,7 +73,9 @@ export function SummaryView({ lecture, ctrl }: { lecture: Lecture; ctrl: Ctrl })
           <h3 className="summary__title">{title('keywords')}</h3>
           <div className="chips">
             {d.keywords.map((k) => (
-              <span key={k} className="keyword">#{k}</span>
+              <Button key={k} variant="chip" className="keyword" active={ctrl.concepts.includes(k)} onClick={() => ctrl.toggleConcept(k)}>
+                {ctrl.concepts.includes(k) ? `✓ #${k}` : `#${k}`}
+              </Button>
             ))}
           </div>
         </section>
@@ -74,8 +86,13 @@ export function SummaryView({ lecture, ctrl }: { lecture: Lecture; ctrl: Ctrl })
           <h3 className="summary__title">{title('concepts')}</h3>
           <dl className="concepts">
             {d.concepts.map((c) => (
-              <div key={c.term} className="concepts__item">
-                <dt>{c.term}</dt>
+              <div key={c.term} className={`concepts__item ${ctrl.concepts.includes(c.term) ? 'is-picked' : ''}`}>
+                <dt>
+                  <label className="check">
+                    <input type="checkbox" checked={ctrl.concepts.includes(c.term)} onChange={() => ctrl.toggleConcept(c.term)} />
+                    {c.term}
+                  </label>
+                </dt>
                 <dd>{c.meaning}</dd>
               </div>
             ))}
