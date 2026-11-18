@@ -14,6 +14,7 @@ export function useMyPageController() {
   const [list, setList] = useState<LectureListItem[] | null>(null)
   const [lectures, setLectures] = useState<Lecture[]>([])
   const [filter, setFilter] = useState<FileKind | 'all'>('all')
+  const [search, setSearch] = useState('')
   const [error, setError] = useState('')
 
   /** 열어 본 파일 + 미리보기를 넣을 자리 */
@@ -96,6 +97,9 @@ export function useMyPageController() {
   const goBack = () => (window.history.state?.idx > 0 ? navigate(-1) : navigate('/study'))
 
   const files = studyFiles(lectures)
+  // 검색: 대소문자 · 띄어쓰기 무시하고 파일 이름 또는 강의 제목에 포함되면
+  const norm = (s: string) => s.toLowerCase().replace(/\s+/g, '')
+  const matches = (f: StudyFile, q: string) => !norm(q) || norm(`${f.name} ${f.lecture.title}`).includes(norm(q))
 
   return {
     goBack,
@@ -106,7 +110,9 @@ export function useMyPageController() {
     charts: learningStats(lectures),
     filter,
     setFilter,
-    files: files.filter((f) => filter === 'all' || f.target.kind === filter),
+    search,
+    setSearch,
+    files: files.filter((f) => (filter === 'all' || f.target.kind === filter) && matches(f, search)),
     error,
     opened,
     open: setOpened,

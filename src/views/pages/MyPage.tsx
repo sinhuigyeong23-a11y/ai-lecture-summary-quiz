@@ -1,5 +1,6 @@
 import Button from '../components/Button'
 import Dialog from '../components/Dialog'
+import Field from '../components/Field'
 import Layout from '../components/Layout'
 import { fileFilters, myPageContent as content, openInWorkspace } from '../../models/myPage'
 import { useMyPageController } from '../../controllers/useMyPageController'
@@ -83,13 +84,27 @@ export default function MyPage() {
             </div>
           </div>
 
+          {!page.isEmpty && (
+            <Field
+              name="search"
+              label={content.searchLabel}
+              value={page.search}
+              onChange={(_, v) => page.setSearch(v)}
+              type="search"
+              placeholder={content.searchPlaceholder}
+              autoComplete="off"
+            />
+          )}
+
           {page.isEmpty && (
             <div className="card__empty">
               <p>{content.empty}</p>
               <Button to="/study">{content.startLabel}</Button>
             </div>
           )}
-          {page.loaded && !page.isEmpty && page.files.length === 0 && <p className="card__empty">{content.noFiles}</p>}
+          {page.loaded && !page.isEmpty && page.files.length === 0 && (
+            <p className="card__empty">{page.search.trim() ? content.noResult(page.search.trim()) : content.noFiles}</p>
+          )}
 
           <ul className="files">
             {page.files.map((f) => (
