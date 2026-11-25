@@ -2,7 +2,7 @@ import { useEffect, useState, type DragEvent, type FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 import { errorMessage } from '../models/api'
 import { isLoggedIn } from '../models/auth'
-import { createLecture, fetchLectures, studyPageContent, type LectureListItem } from '../models/study'
+import { createLecture, studyPageContent } from '../models/study'
 
 // 자료 올리기: 파일 · 글 입력, 올리면 학습 공간으로 이동 (로그인 필요)
 export function useStudyController() {
@@ -12,16 +12,11 @@ export function useStudyController() {
   const [dragging, setDragging] = useState(false)
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
-  const [history, setHistory] = useState<LectureListItem[]>([])
 
   useEffect(() => {
     if (!isLoggedIn()) {
       navigate('/login', { replace: true, state: { from: '/study' } })
-      return
     }
-    fetchLectures()
-      .then(setHistory)
-      .catch(() => setHistory([]))
   }, [navigate])
 
   const dropHandlers = {
@@ -54,5 +49,5 @@ export function useStudyController() {
     }
   }
 
-  return { file, setFile, text, setText, dragging, dropHandlers, message, loading, history, handleSubmit }
+  return { file, setFile, text, setText, dragging, dropHandlers, message, loading, handleSubmit }
 }

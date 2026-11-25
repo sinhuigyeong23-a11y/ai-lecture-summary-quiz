@@ -22,7 +22,6 @@ export const studyPageContent = {
   },
   submitLabel: '자료 올리고 시작하기',
   loadingLabel: '올리는 중…',
-  historyLabel: '최근 학습 기록',
   messages: { noInput: '강의 자료를 올리거나 내용을 붙여넣어 주세요.' },
 }
 
