@@ -98,7 +98,8 @@
 /* 화면 높이에 딱 맞춘 한 칸: 페이지는 이 안에서 스크롤되고, 챗봇은 스크롤과 상관없이 항상 오른쪽 아래에 보임
    (행 크기를 1fr로 막아야 페이지 길이만큼 늘어나지 않음) */
 .shell {
-  flex: 1;
+  /* flex: 1이면 높이가 내용만큼 늘어나서 챗봇이 페이지 맨 아래로 밀림 → 화면 높이로 고정 */
+  flex: none;
   display: grid;
   grid-template: minmax(0, 1fr) / minmax(0, 1fr);
   height: 100svh;
