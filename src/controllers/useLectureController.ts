@@ -60,7 +60,7 @@ export function useLectureController(id: string) {
   const [refresh, setRefresh] = useState(false)
   /** 요약에서 고른 개념 (이것만으로 퀴즈 만들기) */
   const [concepts, setConcepts] = useState<string[]>([])
-  const [sections, setSections] = useState<SummarySection[]>(['overview', 'keywords', 'concepts', 'easy', 'exam'])
+  const [sections, setSections] = useState<SummarySection[]>([])
   const [types, setTypes] = useState<QuizType[]>(['multiple'])
   const [difficulty, setDifficulty] = useState<Difficulty>('normal')
   const [count, setCount] = useState(5)
@@ -117,6 +117,7 @@ export function useLectureController(id: string) {
     setStep(0)
     setRefresh(false)
     setConcepts([])
+    setSections([]) // 요약 항목은 매번 처음부터 직접 고르기
     setDialog(kind)
   }
   /** 고른 개념은 유지한 채 퀴즈 만들기 창 열기 */
