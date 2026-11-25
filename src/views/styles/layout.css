@@ -95,10 +95,15 @@
 }
 
 /* 오른쪽 아래에 떠 있는 요소(챗봇)가 있는 페이지: 페이지와 overlay를 같은 grid 칸에 겹침 (position 없이) */
+/* 화면 높이에 딱 맞춘 한 칸: 페이지는 이 안에서 스크롤되고, 챗봇은 스크롤과 상관없이 항상 오른쪽 아래에 보임
+   (행 크기를 1fr로 막아야 페이지 길이만큼 늘어나지 않음) */
 .shell {
   flex: 1;
   display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
   height: 100svh;
+  height: 100dvh; /* 모바일 주소창이 접혔다 펴져도 화면에 맞춤 */
+  overflow: hidden;
 }
 
 .shell > * {
