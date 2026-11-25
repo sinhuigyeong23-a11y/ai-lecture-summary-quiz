@@ -39,7 +39,7 @@ export const myPageContent = {
   },
   chart: {
     title: '학습 통계',
-    trend: '시험지 점수 변화',
+    trend: '시험지 점수 변화 (맞힌 개수 / 문제 수)',
     byType: '문제 유형별 정답률',
     weak: '자주 틀리는 개념',
     weakEmpty: '오답노트에서 "AI 오답 분석"을 하면 여기에 모여요.',
@@ -134,20 +134,24 @@ export interface Bar {
   label: string
   /** 0 ~ 100 */
   percent: number
-  /** 막대 옆에 보여줄 값 */
+  /** 막대 옆에 보여줄 값 (세로 막대는 마우스를 올리면 보임) */
   value: string
+  /** 세로 막대 위에 보여줄 짧은 값 (예: 2/3) */
+  short?: string
 }
 
 /** 학습 통계: 채점한 시험지 점수 변화 · 유형별 정답률 · 자주 틀리는 개념 (오답 분석 결과 기준) */
 export function learningStats(lectures: Lecture[]) {
   const sets = lectures
-    .flatMap((l) => l.quizSets.map((s) => ({ ...s, lectureTitle: l.title })))
+    .flatMap((l) => l.quizSets.map((s, i) => ({ ...s, lectureTitle: l.title, name: quizSetLabel(s, i) })))
     .filter((s) => s.revealed && s.questions.length > 0)
     .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
     .slice(-10) // 최근 10개
+  // 마이페이지 파일 목록과 똑같이 '맞힌 개수 / 문제 수'로 표시 (막대 높이만 비율)
   const trend: Bar[] = sets.map((s, i) => {
+    const score = `${s.correctCount}/${s.questions.length}`
     const percent = Math.round((s.correctCount / s.questions.length) * 100)
-    return { label: `${i + 1}`, percent, value: `${percent}점 · ${s.lectureTitle}` }
+    return { label: `${i + 1}`, percent, value: `${s.name} · ${s.lectureTitle} · ${score}점`, short: score }
   })
 
   const graded = lectures.flatMap((l) => l.quizSets.filter((s) => s.revealed).flatMap((s) => s.questions))

@@ -64,7 +64,7 @@ export default function MyPage() {
                   <div className="chart__columns">
                     {page.charts.trend.map((b, i) => (
                       <div key={i} className="chart__column" title={b.value}>
-                        <span className="chart__num">{b.percent}</span>
+                        <span className="chart__num">{b.short ?? b.percent}</span>
                         <span className="chart__track chart__track--v">
                           <span className="chart__fill" style={{ height: `${Math.max(b.percent, 2)}%` }} />
                         </span>
